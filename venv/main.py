@@ -1,7 +1,6 @@
 import pygame
 from random import randrange
 import enum
-from datetime import datetime
 import time
 
 pygame.init()
@@ -14,11 +13,12 @@ appleImg = pygame.image.load('apple.png')
 snakeX = 60
 snakeY = 0
 tail = [(0,0)]
-appleX = 60
+appleX = 120
 appleY = 120
 appleEaten = False
-direction = 1
-refreshTime = datetime.now().time()
+direction = 3
+first = True
+
 
 def drawTail(tail):
     for temp in tail:
@@ -26,21 +26,34 @@ def drawTail(tail):
 
 
 def moveInDirection(direction):
-    time.sleep(0.5)
+    time.sleep(0.3)
     global snakeX
     global snakeY
     global tail
+    oldX = snakeX
+    oldY = snakeY
     if direction == 1:
-        snakeY += 60
+        if snakeY == 540:
+            snakeY = 0
+        else:
+            snakeY += 60
     elif direction == 2:
-        snakeY -= 60
+        if snakeY == 0:
+            snakeY = 540
+        else:
+            snakeY -= 60
     elif direction == 3:
-        snakeX += 60
+        if snakeX == 540:
+            snakeX = 0
+        else:
+            snakeX += 60
     elif direction == 4:
-        snakeX -= 60
-    tail.append((snakeX, snakeY))
+        if snakeX == 0:
+            snakeX = 540
+        else:
+            snakeX -= 60
+    tail.append((oldX, oldY))
     tail.pop(0)
-    # drawTail(tail)
 
 
 def drawSnake(x,y):
@@ -92,6 +105,8 @@ def moveRight():
     snakeX += 60
     tail.append((snakeX, snakeY))
     tail.pop(0)
+
+
 
 def generateRandomApple():
     randomX = randrange(10)
@@ -151,14 +166,21 @@ def generateRandomApple():
             break
 
 
+def checkTheEnd(tail,sX,sY):
+    if (sX,sY) in tail:
+        font = pygame.font.Font('freesansbold.ttf', 32)
+        text = font.render('Game Over!', True, (255,255,255), (150,150,150))
+        textRect = text.get_rect()
+        textRect.center = (630 // 2, 600 // 2)
+        screen.blit(text, textRect)
+
 running = True
 lastKey = pygame.K_RIGHT;
+
 while running:
     screen.fill((192,192,192))
 
-    moveInDirection(direction)
 
-    time.sleep(0.5)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -166,6 +188,8 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             lastKey = event.key;
+
+
 
             if lastKey == pygame.K_RIGHT:
                 direction = 3
@@ -176,36 +200,24 @@ while running:
             if lastKey == pygame.K_DOWN:
                 direction = 1
 
-        # time.sleep(1)
+    checkTheEnd(tail, snakeX, snakeY)
+    moveInDirection(direction)
 
     if appleEaten:
         generateRandomApple()
 
-   #if len(tail) == 3:
-    #    font = pygame.font.Font('freesansbold.ttf', 32)
-     #   text = font.render('Game Over!', True, (255,255,255), (150,150,150))
-      #  textRect = text.get_rect()
-       # textRect.center = (630 // 2, 600 // 2)
-        #screen.blit(text, textRect)
-    #
+
     checkEaten()
-
-    #time = datetime.now().time()
-    #print(time.second)
-    #if time.second - refreshTime.second > 1:
-        #moveInDirection(direction)
-
-
-
-    drawTail(tail)
 
     if appleEaten:
         tail.insert(0,tail.__getitem__(0))
 
-    # print(snakeX)
-    # print(snakeY)
-    # print(tail)
+    print(snakeX)
+    print(snakeY)
+    print(tail)
 
     drawApple(appleX,appleY)
+    drawTail(tail)
     drawSnake(snakeX,snakeY)
+
     pygame.display.update()
