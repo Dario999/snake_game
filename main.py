@@ -221,5 +221,7 @@ while running:
         drawApple(appleX,appleY)
         drawTail(tail)
         drawSnake(snakeX,snakeY)
+    else:
+        running = False
 
     pygame.display.update()
