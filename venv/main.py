@@ -18,6 +18,8 @@ appleY = 120
 appleEaten = False
 direction = 3
 first = True
+lastKey = pygame.K_RIGHT;
+theEnd = False
 
 
 def drawTail(tail):
@@ -173,15 +175,14 @@ def checkTheEnd(tail,sX,sY):
         textRect = text.get_rect()
         textRect.center = (630 // 2, 600 // 2)
         screen.blit(text, textRect)
+        global theEnd
+        theEnd = True
 
 running = True
-lastKey = pygame.K_RIGHT;
+
 
 while running:
     screen.fill((192,192,192))
-
-
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -216,8 +217,9 @@ while running:
     print(snakeY)
     print(tail)
 
-    drawApple(appleX,appleY)
-    drawTail(tail)
-    drawSnake(snakeX,snakeY)
+    if theEnd == False:
+        drawApple(appleX,appleY)
+        drawTail(tail)
+        drawSnake(snakeX,snakeY)
 
     pygame.display.update()
