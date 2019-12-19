@@ -5,9 +5,9 @@ import time
 
 pygame.init()
 screen = pygame.display.set_mode((600,600))
-playerImg = pygame.image.load('snake.png')
-tailImg = pygame.image.load('snake1.png')
-appleImg = pygame.image.load('apple.png')
+playerImg = pygame.image.load('venv/snake.png')
+tailImg = pygame.image.load('venv/snake1.png')
+appleImg = pygame.image.load('venv/apple.png')
 
 
 snakeX = 60

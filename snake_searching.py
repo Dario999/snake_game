@@ -624,17 +624,18 @@ if __name__ == '__main__':
     answer = breadth_first_graph_search(snake)
     print(answer.solution())
 
-    # 5
+    # 5  zeleni
     # 0, 6
     # 2, 2
     # 4, 9
     # 6, 2
     # 6, 4
-    # 4
+    # 4 crveni
     # 3, 4
     # 4, 6
     # 6, 3
     # 1, 6
+
     # ['SvrtiLevo', 'ProdolzhiPravo', 'SvrtiDesno', 'ProdolzhiPravo', 'ProdolzhiPravo', 'ProdolzhiPravo',
     #  'ProdolzhiPravo', 'SvrtiLevo', 'ProdolzhiPravo', 'SvrtiLevo', 'ProdolzhiPravo', 'SvrtiDesno', 'ProdolzhiPravo',
     #  'ProdolzhiPravo', 'ProdolzhiPravo', 'ProdolzhiPravo', 'SvrtiLevo', 'ProdolzhiPravo', 'ProdolzhiPravo',
