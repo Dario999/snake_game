@@ -624,11 +624,10 @@ theEnd = False
 
 def drawTail(tail):
     for temp in tail:
-        screen.blit(tailImg,temp)
+        screen.blit(tailImg, temp)
 
 
 def moveInDirection(direction):
-    print("Move called")
     time.sleep(0.3)
     global snakeX
     global snakeY
@@ -658,13 +657,30 @@ def moveInDirection(direction):
     tail.append((oldX, oldY))
     tail.pop(0)
 
+def moveInDirectionTest(direction):
+    time.sleep(0.3)
+    global snakeX
+    global snakeY
+    global tail
+    oldX = snakeX
+    oldY = snakeY
+    if direction == 1:
+        snakeY += 60
+    elif direction == 2:
+        snakeY -= 60
+    elif direction == 3:
+        snakeX += 60
+    elif direction == 4:
+        snakeX -= 60
+    tail.append((oldX, oldY))
+    tail.pop(0)
+
 
 def drawSnake(x,y):
     screen.blit(playerImg,(x,y))
 
 def drawApple(x,y):
     screen.blit(appleImg,(x,y))
-
 
 def checkEaten():
     global snakeX
@@ -783,7 +799,7 @@ running = True
 find = True
 
 while running:
-    screen.fill((192,192,192))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -793,39 +809,40 @@ while running:
     path = findPath(direction, tuple(tail), (snakeX,snakeY), (appleX,appleY))
 
     for temp in path:
+        screen.fill((192, 192, 192))
         drawApple(appleX, appleY)
         drawTail(tail)
         drawSnake(snakeX, snakeY)
+        pygame.display.update()
         print(temp)
         if temp == 'S':
-            moveInDirection(direction)
+            moveInDirectionTest(direction)
         elif temp == 'L':
             if direction == 1:
-                moveInDirection(3)
+                moveInDirectionTest(3)
                 direction = 3
             elif direction == 2:
-                moveInDirection(4)
+                moveInDirectionTest(4)
                 direction = 4
             elif direction == 3:
-                moveInDirection(2)
+                moveInDirectionTest(2)
                 direction = 2
             elif direction == 4:
-                moveInDirection(1)
+                moveInDirectionTest(1)
                 direction = 1
         else:
             if direction == 1:
-                moveInDirection(4)
+                moveInDirectionTest(4)
                 direction = 4
             elif direction == 2:
-                moveInDirection(3)
+                moveInDirectionTest(3)
                 direction = 3
             elif direction == 3:
-                moveInDirection(1)
+                moveInDirectionTest(1)
                 direction = 1
             elif direction == 4:
-                moveInDirection(2)
+                moveInDirectionTest(2)
                 direction = 2
-
 
 
     #checkTheEnd(tail, snakeX, snakeY)
@@ -842,12 +859,7 @@ while running:
     print(snakeY)
     print(tail)
 
-    drawApple(appleX,appleY)
-    drawTail(tail)
-    drawSnake(snakeX,snakeY)
 
-
-    pygame.display.update()
 
 
 
