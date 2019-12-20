@@ -7,11 +7,231 @@ import random
 import bisect
 from sys import maxsize as infinity
 
-import sys
-import math
-import random
-import bisect
-from sys import maxsize as infinity
+pygame.init()
+screen = pygame.display.set_mode((600,600))
+playerImg = pygame.image.load('venv/snake.png')
+tailImg = pygame.image.load('venv/snake1.png')
+appleImg = pygame.image.load('venv/apple.png')
+
+
+snakeX = 60
+snakeY = 0
+tail = [(0,0)]
+appleX = 120
+appleY = 120
+appleEaten = False
+direction = 3
+first = True
+lastKey = pygame.K_RIGHT;
+theEnd = False
+
+
+def drawTail(tail):
+    for temp in tail:
+        screen.blit(tailImg,temp)
+
+
+def moveInDirection(direction):
+    time.sleep(0.3)
+    global snakeX
+    global snakeY
+    global tail
+    oldX = snakeX
+    oldY = snakeY
+    if direction == 1:
+        if snakeY == 540:
+            snakeY = 0
+        else:
+            snakeY += 60
+    elif direction == 2:
+        if snakeY == 0:
+            snakeY = 540
+        else:
+            snakeY -= 60
+    elif direction == 3:
+        if snakeX == 540:
+            snakeX = 0
+        else:
+            snakeX += 60
+    elif direction == 4:
+        if snakeX == 0:
+            snakeX = 540
+        else:
+            snakeX -= 60
+    tail.append((oldX, oldY))
+    tail.pop(0)
+
+
+def drawSnake(x,y):
+    screen.blit(playerImg,(x,y))
+
+def drawApple(x,y):
+    screen.blit(appleImg,(x,y))
+
+
+def checkEaten():
+    global snakeX
+    global snakeY
+    global appleX
+    global appleY
+    global appleEaten
+    if snakeX == appleX and snakeY == appleY:
+        appleEaten = True
+    else:
+        appleEaten = False
+
+def moveUp():
+    global snakeY
+    global snakeX
+    global tail
+    snakeY -= 60
+    tail.append((snakeX,snakeY))
+    tail.pop(0)
+
+def moveDown():
+    global snakeY
+    global snakeX
+    global tail
+    snakeY += 60
+    tail.append((snakeX,snakeY))
+    tail.pop(0)
+
+def moveLeft():
+    global snakeX
+    global snakeY
+    global tail
+    snakeX -= 60
+    tail.append((snakeX, snakeY))
+    tail.pop(0)
+
+def moveRight():
+    global snakeX
+    global snakeY
+    global tail
+    snakeX += 60
+    tail.append((snakeX, snakeY))
+    tail.pop(0)
+
+
+
+def generateRandomApple():
+    randomX = randrange(10)
+    randomY = randrange(10)
+    print(randomX)
+    print(randomY)
+    global appleX
+    global appleY
+    global tail
+    while True:
+        if randomX == 0:
+            appleX = 0
+        elif randomX == 1:
+            appleX = 60
+        elif randomX == 2:
+            appleX = 120
+        elif randomX == 3:
+            appleX = 180
+        elif randomX == 4:
+            appleX = 240
+        elif randomX == 5:
+            appleX = 300
+        elif randomX == 6:
+            appleX = 360
+        elif randomX == 7:
+            appleX = 420
+        elif randomX == 8:
+            appleX = 480
+        else:
+            appleX = 540
+
+        if randomY == 0:
+            appleY = 0
+        elif randomY == 1:
+            appleY = 60
+        elif randomY == 2:
+            appleY = 120
+        elif randomY == 3:
+            appleY = 180
+        elif randomY == 4:
+            appleY = 240
+        elif randomY == 5:
+            appleY = 300
+        elif randomY == 6:
+            appleY = 360
+        elif randomY == 7:
+            appleY = 420
+        elif randomY == 8:
+            appleY = 480
+        else:
+            appleY = 540
+
+        if (appleX,appleY) in tail:
+            randomX = randrange(10)
+            randomY = randrange(10)
+        else:
+            break
+
+
+def checkTheEnd(tail,sX,sY):
+    if (sX,sY) in tail:
+        font = pygame.font.Font('freesansbold.ttf', 32)
+        text = font.render('Game Over!', True, (255,255,255), (150,150,150))
+        textRect = text.get_rect()
+        textRect.center = (630 // 2, 600 // 2)
+        screen.blit(text, textRect)
+        global theEnd
+        theEnd = True
+
+running = True
+
+
+while running:
+    screen.fill((192,192,192))
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+        if event.type == pygame.KEYDOWN:
+            lastKey = event.key;
+
+
+
+            if lastKey == pygame.K_RIGHT:
+                direction = 3
+            if lastKey == pygame.K_LEFT:
+                direction = 4
+            if lastKey == pygame.K_UP:
+                direction = 2
+            if lastKey == pygame.K_DOWN:
+                direction = 1
+
+    checkTheEnd(tail, snakeX, snakeY)
+    moveInDirection(direction)
+
+    if appleEaten:
+        generateRandomApple()
+
+
+    checkEaten()
+
+    if appleEaten:
+        tail.insert(0,tail.__getitem__(0))
+
+    print(snakeX)
+    print(snakeY)
+    print(tail)
+
+    if theEnd == False:
+        drawApple(appleX,appleY)
+        drawTail(tail)
+        drawSnake(snakeX,snakeY)
+    else:
+        running = False
+
+    pygame.display.update()
+
+
+
 
 
 class Problem:
@@ -451,138 +671,120 @@ class GraphProblem(Problem):
         else:
             return math.inf
 
-def ateApple(head,jauki):
-    lista = list(jauki)
-    return lista.__contains__(head)
+def ateApple(head,apple):
+    return head == apple
 
 def out_of_range(glava):
-    x = glava[0]
-    y = glava[1]
-    if x > 9 or x < 0:
+    snakeX = glava[0]
+    snakeY = glava[1]
+    if snakeX > 540 or snakeX < 0:
         return False
-    elif y > 9 or y < 0:
-        return False
-    else:
-        return True
-
-def coalision(zmija,glava):
-    lista_zmija = list(zmija)
-    if lista_zmija.__contains__(glava):
+    elif snakeY > 640 or snakeY < 0:
         return False
     else:
         return True
 
+def coalision(tail,head):
+    lista_zmija = list(tail)
+    if lista_zmija.__contains__(head):
+        return False
+    else:
+        return True
 
 #ProdolziPravo
 def prodolziPravo(state):
-    nasoka = state[0]
-    zmija = state[1]
-    zeleni_jabolki = state[2]
-    crveni_jabolki = state[3]
-    glava = zmija[len(zmija)-1]
-    new_glava = glava
-    if nasoka == 'R':
-        new_glava = glava[0],glava[1]+1
-    elif nasoka == 'L':
-        new_glava = glava[0],glava[1]-1
-    elif nasoka == 'U':
-        new_glava = glava[0]-1,glava[1]
+    direction = state[0]
+    tail = state[1]
+    head = state[2]
+    apple = state[3]
+    new_head = head
+    if direction == 3:
+        new_head = head[0] + 60, head[1]
+    elif direction == 4:
+        new_head = head[0] - 60, head[1]
+    elif direction == 2:
+        new_head = head[0], head[1] - 60
     else:
-        new_glava = glava[0]+1,glava[1]
+        new_head = head[0], head[1] + 60
 
-    if out_of_range(new_glava) and coalision(zmija,new_glava):
-        if ateApple(new_glava,crveni_jabolki):
-            return state
-        elif ateApple(new_glava,zeleni_jabolki):
-            lista_zmija = list(zmija)
-            lista_zmija.append(new_glava)
-            lista_zeleni_jauki = list(zeleni_jabolki)
-            lista_zeleni_jauki.remove(new_glava)
-            return (nasoka,tuple(lista_zmija),tuple(lista_zeleni_jauki),tuple(crveni_jabolki))
+    if out_of_range(new_head) and coalision(tail, new_head):
+        if ateApple(new_head, apple):
+            lista_zmija = list(tail)
+            lista_zmija.append(new_head)
+            return (direction, tuple(lista_zmija), new_head, apple)
         else:
-            lista_zmija = list(zmija)
-            lista_zmija.append(new_glava)
+            lista_zmija = list(tail)
+            lista_zmija.append(new_head)
             lista_zmija.pop(0)
-            return (nasoka,tuple(lista_zmija),tuple(zeleni_jabolki),tuple(crveni_jabolki))
+            return (direction, tuple(lista_zmija), new_head, apple)
 
     return state
 
-
 #SvrtiDesno
 def svrtiDesno(state):
-    nasoka = state[0]
-    zmija = state[1]
-    zeleni_jabolki = state[2]
-    crveni_jabolki = state[3]
-    glava = zmija[len(zmija) - 1]
-    new_glava = glava
-    new_nasoka = nasoka
-    if nasoka == 'R':
-        new_glava = glava[0] + 1, glava[1]
-        new_nasoka = "D"
-    elif nasoka == 'L':
-        new_glava = glava[0] - 1, glava[1]
-        new_nasoka = "U"
-    elif nasoka == 'U':
-        new_glava = glava[0], glava[1] + 1
-        new_nasoka = "R"
+    direction = state[0]
+    tail = state[1]
+    head = state[2]
+    apple = state[3]
+    new_head = head
+    new_direction = direction
+    if direction == 3:
+        new_head = head[0], head[1] + 60
+        new_direction = 1
+    elif direction == 4:
+        new_head = head[0], head[1] - 60
+        new_direction = 2
+    elif direction == 2:
+        new_head = head[0] + 60, head[1]
+        new_direction = 3
     else:
-        new_glava = glava[0], glava[1] - 1
-        new_nasoka = "L"
+        new_head = head[0] - 60, head[1]
+        new_direction = 4
 
-    if out_of_range(new_glava) and coalision(zmija,new_glava):
-        if ateApple(new_glava, crveni_jabolki):
-            return state
-        elif ateApple(new_glava, zeleni_jabolki):
-            lista_zmija = list(zmija)
-            lista_zmija.append(new_glava)
-            lista_zeleni_jauki = list(zeleni_jabolki)
-            lista_zeleni_jauki.remove(new_glava)
-            return (new_nasoka, tuple(lista_zmija), tuple(lista_zeleni_jauki), tuple(crveni_jabolki))
+    if out_of_range(new_head) and coalision(tail, new_head):
+        if ateApple(new_head, apple):
+            lista_zmija = list(tail)
+            lista_zmija.append(new_head)
+            return (new_direction, tuple(lista_zmija), new_head, apple)
         else:
-            lista_zmija = list(zmija)
-            lista_zmija.append(new_glava)
+            lista_zmija = list(tail)
+            lista_zmija.append(new_head)
             lista_zmija.pop(0)
-            return (new_nasoka, tuple(lista_zmija), tuple(zeleni_jabolki), tuple(crveni_jabolki))
+            return (new_direction, tuple(lista_zmija), new_head, apple)
 
     return state
 
 #SvrtiLevo
 def svrtiLevo(state):
-    nasoka = state[0]
-    zmija = state[1]
-    zeleni_jabolki = state[2]
-    crveni_jabolki = state[3]
-    glava = zmija[len(zmija) - 1]
-    new_glava = glava
-    new_nasoka = nasoka
-    if nasoka == 'R':
-        new_glava = glava[0] - 1, glava[1]
-        new_nasoka = "U"
-    elif nasoka == 'L':
-        new_glava = glava[0] + 1, glava[1]
-        new_nasoka = "D"
-    elif nasoka == 'U':
-        new_glava = glava[0], glava[1] - 1
-        new_nasoka = "L"
+    direction = state[0]
+    tail = state[1]
+    head = state[2]
+    apple = state[3]
+    new_head = head
+    new_direction = direction
+    if direction == 3:
+        new_head = head[0], head[1] - 60
+        new_direction = 2
+    elif direction == 4:
+        new_head = head[0], head[1] + 60
+        new_direction = 1
+    elif direction == 2:
+        new_head = head[0] - 60, head[1]
+        new_direction = 4
     else:
-        new_glava = glava[0], glava[1] + 1
-        new_nasoka = "R"
+        new_head = head[0] + 60, head[1]
+        new_direction = 3
 
-    if out_of_range(new_glava) and coalision(zmija,new_glava):
-        if ateApple(new_glava, crveni_jabolki):
-            return state
-        elif ateApple(new_glava, zeleni_jabolki):
-            lista_zmija = list(zmija)
-            lista_zmija.append(new_glava)
-            lista_zeleni_jauki = list(zeleni_jabolki)
-            lista_zeleni_jauki.remove(new_glava)
-            return (new_nasoka, tuple(lista_zmija), tuple(lista_zeleni_jauki), tuple(crveni_jabolki))
+    if out_of_range(new_head) and coalision(tail, new_head):
+        if ateApple(new_head, apple):
+            lista_zmija = list(tail)
+            lista_zmija.append(new_head)
+            return (new_direction, tuple(lista_zmija), new_head,apple)
         else:
-            lista_zmija = list(zmija)
-            lista_zmija.append(new_glava)
+            lista_zmija = list(tail)
+            lista_zmija.append(new_head)
             lista_zmija.pop(0)
-            return (new_nasoka, tuple(lista_zmija), tuple(zeleni_jabolki), tuple(crveni_jabolki))
+            return (new_direction, tuple(lista_zmija), new_head,apple)
 
     return state
 
@@ -592,25 +794,25 @@ def svrtiLevo(state):
 
 class Snake(Problem):
 
-    def __init__(self,initial,goal):
+    def __init__(self, initial, goal):
         self.initial = initial
         self.goal = goal
 
 
     def goal_test(self, state):
-        return len(state[2]) == 0
+        return state[2] == state[3]
 
     def successor(self, state):
         successors = dict()
         new_State = prodolziPravo(state)
         if new_State != state:
-            successors["ProdolzhiPravo"] = new_State
+            successors["S"] = new_State
         new_State = svrtiDesno(state)
         if new_State != state:
-            successors["SvrtiDesno"] = new_State
+            successors["R"] = new_State
         new_State = svrtiLevo(state)
         if new_State != state:
-            successors["SvrtiLevo"] = new_State
+            successors["L"] = new_State
 
         return successors
 
@@ -620,282 +822,9 @@ class Snake(Problem):
     def result(self, state, action):
         return self.successor(state)[action]
 
-#
-# if __name__ == '__main__':
-#     n = int(input())
-#     zeleni_jabolki = [tuple(map(int, input().split(','))) for _ in range(n)]
-#     m = int(input())
-#     crveni_jabolki = [tuple(map(int, input().split(','))) for _ in range(m)]
-#
-#     zmija = ((0,0),(1,0),(2,0))
-#
-#     snake = Snake(('D',zmija,tuple(zeleni_jabolki),tuple(crveni_jabolki)),None)
-#     answer = breadth_first_graph_search(snake)
-#     print(answer.solution())
 
 
-
-
-pygame.init()
-screen = pygame.display.set_mode((600,600))
-playerImg = pygame.image.load('venv/snake.png')
-tailImg = pygame.image.load('venv/snake1.png')
-appleImg = pygame.image.load('venv/apple.png')
-
-
-snakeX = 60
-snakeY = 0
-tail = [(0,0)]
-appleX = 120
-appleY = 120
-appleEaten = False
-direction = 3
-first = True
-lastKey = pygame.K_RIGHT;
-theEnd = False
-
-
-def drawTail(tail):
-    for temp in tail:
-        screen.blit(tailImg,temp)
-
-
-def moveInDirection(direction):
-    time.sleep(0.3)
-    global snakeX
-    global snakeY
-    global tail
-    oldX = snakeX
-    oldY = snakeY
-    if direction == 1:
-        if snakeY == 540:
-            snakeY = 0
-        else:
-            snakeY += 60
-    elif direction == 2:
-        if snakeY == 0:
-            snakeY = 540
-        else:
-            snakeY -= 60
-    elif direction == 3:
-        if snakeX == 540:
-            snakeX = 0
-        else:
-            snakeX += 60
-    elif direction == 4:
-        if snakeX == 0:
-            snakeX = 540
-        else:
-            snakeX -= 60
-    tail.append((oldX, oldY))
-    tail.pop(0)
-
-
-def drawSnake(x,y):
-    screen.blit(playerImg,(x,y))
-
-def drawApple(x,y):
-    screen.blit(appleImg,(x,y))
-
-
-def checkEaten():
-    global snakeX
-    global snakeY
-    global appleX
-    global appleY
-    global appleEaten
-    if snakeX == appleX and snakeY == appleY:
-        appleEaten = True
-    else:
-        appleEaten = False
-
-def moveUp():
-    global snakeY
-    global snakeX
-    global tail
-    snakeY -= 60
-    tail.append((snakeX,snakeY))
-    tail.pop(0)
-
-def moveDown():
-    global snakeY
-    global snakeX
-    global tail
-    snakeY += 60
-    tail.append((snakeX,snakeY))
-    tail.pop(0)
-
-def moveLeft():
-    global snakeX
-    global snakeY
-    global tail
-    snakeX -= 60
-    tail.append((snakeX, snakeY))
-    tail.pop(0)
-
-def moveRight():
-    global snakeX
-    global snakeY
-    global tail
-    snakeX += 60
-    tail.append((snakeX, snakeY))
-    tail.pop(0)
-
-
-
-def generateRandomApple():
-    randomX = randrange(10)
-    randomY = randrange(10)
-    print(randomX)
-    print(randomY)
-    global appleX
-    global appleY
-    global tail
-    while True:
-        if randomX == 0:
-            appleX = 0
-        elif randomX == 1:
-            appleX = 60
-        elif randomX == 2:
-            appleX = 120
-        elif randomX == 3:
-            appleX = 180
-        elif randomX == 4:
-            appleX = 240
-        elif randomX == 5:
-            appleX = 300
-        elif randomX == 6:
-            appleX = 360
-        elif randomX == 7:
-            appleX = 420
-        elif randomX == 8:
-            appleX = 480
-        else:
-            appleX = 540
-
-        if randomY == 0:
-            appleY = 0
-        elif randomY == 1:
-            appleY = 60
-        elif randomY == 2:
-            appleY = 120
-        elif randomY == 3:
-            appleY = 180
-        elif randomY == 4:
-            appleY = 240
-        elif randomY == 5:
-            appleY = 300
-        elif randomY == 6:
-            appleY = 360
-        elif randomY == 7:
-            appleY = 420
-        elif randomY == 8:
-            appleY = 480
-        else:
-            appleY = 540
-
-        if (appleX,appleY) in tail:
-            randomX = randrange(10)
-            randomY = randrange(10)
-        else:
-            break
-
-
-def checkTheEnd(tail,sX,sY):
-    if (sX,sY) in tail:
-        font = pygame.font.Font('freesansbold.ttf', 32)
-        text = font.render('Game Over!', True, (255,255,255), (150,150,150))
-        textRect = text.get_rect()
-        textRect.center = (630 // 2, 600 // 2)
-        screen.blit(text, textRect)
-        global theEnd
-        theEnd = True
-
-running = True
-
-class Snake(Problem):
-
-    def __init__(self,initial,goal):
-        self.initial = initial
-        self.goal = goal
-
-    def goal_test(self, state):
-        return True
-
-    def successor(self, state):
-        successors = dict()
-        return successors
-
-    def actions(self, state):
-        return self.successor(state).keys()
-
-    def result(self, state, action):
-        return self.successor(self)[action]
-
-while running:
-    screen.fill((192,192,192))
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-        if event.type == pygame.KEYDOWN:
-            lastKey = event.key;
-
-
-
-            if lastKey == pygame.K_RIGHT:
-                direction = 3
-            if lastKey == pygame.K_LEFT:
-                direction = 4
-            if lastKey == pygame.K_UP:
-                direction = 2
-            if lastKey == pygame.K_DOWN:
-                direction = 1
-
-    checkTheEnd(tail, snakeX, snakeY)
-    moveInDirection(direction)
-
-    if appleEaten:
-        generateRandomApple()
-
-
-    checkEaten()
-
-    if appleEaten:
-        tail.insert(0,tail.__getitem__(0))
-
-    print(snakeX)
-    print(snakeY)
-    print(tail)
-
-    if theEnd == False:
-        drawApple(appleX,appleY)
-        drawTail(tail)
-        drawSnake(snakeX,snakeY)
-    else:
-        running = False
-
-    pygame.display.update()
-
-
-
-
-
-
-
-    # 5  zeleni
-    # 0, 6
-    # 2, 2
-    # 4, 9
-    # 6, 2
-    # 6, 4
-    # 4 crveni
-    # 3, 4
-    # 4, 6
-    # 6, 3
-    # 1, 6
-
-    # ['SvrtiLevo', 'ProdolzhiPravo', 'SvrtiDesno', 'ProdolzhiPravo', 'ProdolzhiPravo', 'ProdolzhiPravo',
-    #  'ProdolzhiPravo', 'SvrtiLevo', 'ProdolzhiPravo', 'SvrtiLevo', 'ProdolzhiPravo', 'SvrtiDesno', 'ProdolzhiPravo',
-    #  'ProdolzhiPravo', 'ProdolzhiPravo', 'ProdolzhiPravo', 'SvrtiLevo', 'ProdolzhiPravo', 'ProdolzhiPravo',
-    #  'ProdolzhiPravo', 'ProdolzhiPravo', 'SvrtiLevo', 'ProdolzhiPravo', 'ProdolzhiPravo']
+def findPath(direction,tail,head,apple):
+    snake = Snake((direction, tail, head, apple), None)
+    answer = breadth_first_graph_search(snake)
+    return answer.solution()
