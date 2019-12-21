@@ -1,7 +1,3 @@
-import pygame
-from random import randrange
-import time
-
 import sys
 import math
 import random
@@ -581,13 +577,13 @@ class Snake(Problem):
         successors = dict()
         new_State = prodolziPravo(state)
         if new_State != state:
-            successors["ProdolzhiPravo"] = new_State
+            successors["S"] = new_State
         new_State = svrtiDesno(state)
         if new_State != state:
-            successors["SvrtiDesno"] = new_State
+            successors["R"] = new_State
         new_State = svrtiLevo(state)
         if new_State != state:
-            successors["SvrtiLevo"] = new_State
+            successors["L"] = new_State
 
         return successors
 
@@ -599,16 +595,7 @@ class Snake(Problem):
 
 
 
-def findPath():
-    direction = 1
-    tail = ((0,0))
-    head = (60, 0)
-    apple = (0, 60)
-
+def findPath(direction,tail,head,apple):
     snake = Snake((direction, tail, head, apple), None)
     answer = breadth_first_graph_search(snake)
-    for temp in answer.solution():
-        print(temp)
-    #print(answer.solution())
-
-findPath()
+    return answer.solution()
