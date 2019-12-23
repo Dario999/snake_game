@@ -736,49 +736,9 @@ def generateRandomApple():
     global appleY
     global tail
     while True:
-        if randomX == 0:
-            appleX = 0
-        elif randomX == 1:
-            appleX = 60
-        elif randomX == 2:
-            appleX = 120
-        elif randomX == 3:
-            appleX = 180
-        elif randomX == 4:
-            appleX = 240
-        elif randomX == 5:
-            appleX = 300
-        elif randomX == 6:
-            appleX = 360
-        elif randomX == 7:
-            appleX = 420
-        elif randomX == 8:
-            appleX = 480
-        else:
-            appleX = 540
-
-        if randomY == 0:
-            appleY = 0
-        elif randomY == 1:
-            appleY = 60
-        elif randomY == 2:
-            appleY = 120
-        elif randomY == 3:
-            appleY = 180
-        elif randomY == 4:
-            appleY = 240
-        elif randomY == 5:
-            appleY = 300
-        elif randomY == 6:
-            appleY = 360
-        elif randomY == 7:
-            appleY = 420
-        elif randomY == 8:
-            appleY = 480
-        else:
-            appleY = 540
-
-        if (appleX,appleY) in tail:
+        appleX = randomX * 60
+        appleY = randomY * 60
+        if (appleX, appleY) in tail:
             randomX = randrange(10)
             randomY = randrange(10)
         else:

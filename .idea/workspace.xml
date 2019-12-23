@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4020d5e9-6243-4765-b2c5-907b4fa95a97" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/snake_searching.py" beforeDir="false" afterPath="$PROJECT_DIR$/snake_searching.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/snake_autoplay.py" beforeDir="false" afterPath="$PROJECT_DIR$/snake_autoplay.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +47,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.snake_searching">
+  <component name="RunManager" selected="Python.snake_autoplay">
     <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SnakeGame" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -159,9 +160,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.snake_searching" />
         <item itemvalue="Python.snake_autoplay" />
         <item itemvalue="Python.main (1)" />
+        <item itemvalue="Python.snake_searching" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.theGame" />
       </list>
@@ -186,6 +187,8 @@
       <workItem from="1576710884052" duration="1026000" />
       <workItem from="1576758158141" duration="1452000" />
       <workItem from="1576776874952" duration="12379000" />
+      <workItem from="1577054686495" duration="1043000" />
+      <workItem from="1577059119983" duration="313000" />
     </task>
     <task id="LOCAL-00001" summary="Searching added">
       <created>1576758441017</created>
@@ -220,8 +223,8 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SnakeGame$main.coverage" NAME="main Coverage Results" MODIFIED="1576714419829" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
     <SUITE FILE_PATH="coverage/SnakeGame$theGame.coverage" NAME="theGame Coverage Results" MODIFIED="1573079064483" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SnakeGame$snake_searching.coverage" NAME="snake_searching Coverage Results" MODIFIED="1576926483110" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SnakeGame$snake_autoplay.coverage" NAME="snake_autoplay Coverage Results" MODIFIED="1576926360087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SnakeGame$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1576836393160" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SnakeGame$snake_searching.coverage" NAME="snake_searching Coverage Results" MODIFIED="1577054727353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SnakeGame$snake_autoplay.coverage" NAME="snake_autoplay Coverage Results" MODIFIED="1577059308474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SnakeGame$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1577059241795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
